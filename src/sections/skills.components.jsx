@@ -79,6 +79,8 @@ export const Skills = ({ perViewCountSkill }) => {
                   style={{
                     maxWidth: '160px',
                     maxHeight: '130px',
+                    minWidth: '160px',
+                    height: '130px',
                     cursor: 'pointer',
                     display: 'flex',
                     flexDirection: 'column',
