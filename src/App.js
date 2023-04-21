@@ -1,25 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import { ChakraProvider, extendTheme } from '@chakra-ui/react'
+import './App.css'
+import { Layout } from './layout/layout.component'
+import { Home } from './sections/home.component'
+import { Contact } from './sections/contact.component'
+import { Skills } from './sections/skills.components'
+import { Project } from './sections/projects.component'
+import { breakpoints } from './utils/breakpoints'
+import { useEffect, useState } from 'react'
+import { Breakpoints } from './modules/enums/breakpoint.enum.ts'
 
 function App() {
+  const [perViewCountProject, setPerviewCountProject] = useState(3)
+  const [perViewCountSkill, setPerviewCountSkill] = useState(6)
+
+  const theme = extendTheme({ breakpoints })
+
+  useEffect(() => {
+    window.onresize = () => {
+      if (window.innerWidth <= Breakpoints.Mobile) {
+        setPerviewCountProject(1)
+        setPerviewCountSkill(2)
+      } else if (window.innerWidth <= Breakpoints.Tablet) {
+        setPerviewCountProject(2)
+        setPerviewCountSkill(4)
+      } else if (window.innerWidth <= Breakpoints.Desktop) {
+        setPerviewCountSkill(5)
+      } else {
+        setPerviewCountProject(3)
+        setPerviewCountSkill(6)
+      }
+    }
+  }, [])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <ChakraProvider theme={theme}>
+      <Layout>
+        <Home />
+        <Skills perViewCountSkill={perViewCountSkill} />
+        <Project perViewCountProject={perViewCountProject} />
+        <Contact />
+      </Layout>
+    </ChakraProvider>
+  )
 }
 
-export default App;
+export default App
